@@ -1,17 +1,19 @@
 package com.learn_spring.TaskManager.Entity;
 
 import jakarta.persistence.*;
-
-import jakarta.validation.constraints.Future;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
-@Setter
+import java.util.Objects;
+
 @Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name = "tasks")
-public class Task{
+public class Task extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id",updatable = false, nullable = false)
@@ -24,43 +26,20 @@ public class Task{
     @Column(name="due_date")
     private LocalDateTime dueDate;
 
-    @Enumerated(EnumType.STRING)
-    private Task_Status status;
 
-    @Column(name="created")
-    private LocalDateTime created;
-
-    @Column(name="updated")
-    private LocalDateTime updated;
-
-
-    public Task(Long id, LocalDateTime updated, LocalDateTime created, Task_Status status, LocalDateTime dueDate, String description, String title) {
-        this.id = id;
-        this.updated = updated;
-        this.created = created;
-        this.status = status;
-        this.dueDate = dueDate;
-        this.description = description;
-        this.title = title;
-
-    }
-
-    public Task() {
-
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        if (thisEffectiveClass != oEffectiveClass) return false;
+        Task task = (Task) o;
+        return getId() != null && Objects.equals(getId(), task.getId());
     }
 
     @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", dueDate=" + dueDate +
-                ", status=" + status +
-                ", created=" + created +
-                ", updated=" + updated +
-                '}';
+    public final int hashCode() {
+        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
-
-
 }

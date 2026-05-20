@@ -1,5 +1,6 @@
 package com.learn_spring.TaskManager.DTO;
 
+import com.learn_spring.TaskManager.Entity.TaskStatus;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,17 +10,22 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class CreateTaskRequestDto {
+public class UpdateTaskRequestDto {
 
-    @NotBlank(message = "title cannot be blank")
+
+    @NotBlank(message = "Title cannot be blank.")
     @Size(max = 50)
     private String title;
 
     @Size(max = 500)
     private String description;
 
-    @NotNull(message="DueDate cannot be empty!")
-    @Future(message="DueDate should be in future!")
+    @NotNull(message = "Status cannot be blank! Please enter OPEN OR CLOSED")
+    private TaskStatus status;
+
+    @NotNull(message = "Due date cannot be empty!")
+    @Future(message = "Due date should be in future!")
     private LocalDateTime dueDate;
+
 
 }

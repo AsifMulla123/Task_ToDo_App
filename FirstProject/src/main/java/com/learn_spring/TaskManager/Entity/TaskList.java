@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name="task_lists")
-public class Task_List {
+public class TaskList {
     @Id
     @Column(name="id",unique=true,updatable = false, nullable=false)
     private Long id;

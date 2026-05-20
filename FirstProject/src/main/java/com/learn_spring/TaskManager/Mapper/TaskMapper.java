@@ -2,6 +2,7 @@ package com.learn_spring.TaskManager.Mapper;
 
 import com.learn_spring.TaskManager.DTO.CreateTaskRequestDto;
 import com.learn_spring.TaskManager.DTO.TaskResponseDto;
+import com.learn_spring.TaskManager.DTO.UpdateTaskRequestDto;
 import com.learn_spring.TaskManager.Entity.Task;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +16,16 @@ public class TaskMapper {
 
         task.setTitle(dto.getTitle());
         task.setDescription(dto.getDescription());
-        task.setStatus(dto.getStatus());
         task.setDueDate(dto.getDueDate());
 
         return task;
+    }
+    public void updateEntity(UpdateTaskRequestDto dto, Task task) {
+
+        task.setTitle(dto.getTitle());
+        task.setDescription(dto.getDescription());
+        task.setStatus(dto.getStatus());
+        task.setDueDate(dto.getDueDate());
     }
 
     // ENTITY -> RESPONSE DTO

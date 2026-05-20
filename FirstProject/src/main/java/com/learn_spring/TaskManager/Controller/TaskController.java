@@ -1,9 +1,10 @@
 package com.learn_spring.TaskManager.Controller;
 import com.learn_spring.TaskManager.DTO.CreateTaskRequestDto;
 import com.learn_spring.TaskManager.DTO.TaskResponseDto;
-import com.learn_spring.TaskManager.Mapper.TaskMapper;
+import com.learn_spring.TaskManager.DTO.UpdateTaskRequestDto;
 import com.learn_spring.TaskManager.Service.ITaskService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -37,13 +38,13 @@ public class TaskController {
     @PostMapping("/tasks")
     public ResponseEntity<String> saveTask(@Valid @RequestBody CreateTaskRequestDto createTaskRequestDto) {
         taskService.createTask(createTaskRequestDto);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>("task created!", HttpStatus.CREATED);
     }
 
     @PutMapping("/tasks/{id}")
-    public ResponseEntity<String> updateTask(@PathVariable long id, @Valid @RequestBody CreateTaskRequestDto createTaskRequestDto) {
-        taskService.updateTask(createTaskRequestDto, id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> updateTask(@PathVariable long id, @Valid @RequestBody UpdateTaskRequestDto updateDto) {
+        taskService.updateTask(updateDto, id);
+        return new ResponseEntity<>("Task updated successfully", HttpStatus.OK);
     }
 
     @DeleteMapping("/tasks/{id}")

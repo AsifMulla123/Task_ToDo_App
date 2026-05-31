@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Task Manager</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="workspace">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Task Manager</p>
+          <h1>Tasks</h1>
+        </div>
+        <div class="summary" aria-live="polite">
+          <span><strong id="openCount">0</strong> open</span>
+          <span><strong id="closedCount">0</strong> closed</span>
+        </div>
+      </header>
+
+      <section class="content-grid">
+        <form id="taskForm" class="task-form">
+          <div class="form-header">
+            <div>
+              <h2 id="formTitle">New task</h2>
+              <p id="formHint">Create a task with a future due date.</p>
+            </div>
+            <button type="button" id="cancelEdit" class="ghost-button hidden">Cancel</button>
+          </div>
+
+          <input type="hidden" id="taskId">
+
+          <label>
+            Title
+            <input id="title" name="title" maxlength="50" required placeholder="Write API docs">
+          </label>
+
+          <label>
+            Description
+            <textarea id="description" name="description" maxlength="500" rows="5" placeholder="Add details, notes, or acceptance criteria"></textarea>
+          </label>
+
+          <label>
+            Due date
+            <input id="dueDate" name="dueDate" type="datetime-local" required>
+          </label>
+
+          <label id="statusField" class="hidden">
+            Status
+            <select id="status" name="status">
+              <option value="OPEN">Open</option>
+              <option value="CLOSED">Closed</option>
+            </select>
+          </label>
+
+          <button id="submitButton" class="primary-button" type="submit">Create task</button>
+          <p id="formMessage" class="message" role="status"></p>
+        </form>
+
+        <section class="task-panel">
+          <div class="panel-toolbar">
+            <div class="filters" role="tablist" aria-label="Task filters">
+              <button class="filter-button active" type="button" data-filter="ALL">All</button>
+              <button class="filter-button" type="button" data-filter="OPEN">Open</button>
+              <button class="filter-button" type="button" data-filter="CLOSED">Closed</button>
+            </div>
+            <button id="refreshButton" class="ghost-button" type="button">Refresh</button>
+          </div>
+
+          <div id="statusMessage" class="status-message">Loading tasks...</div>
+          <div id="taskList" class="task-list" aria-live="polite"></div>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

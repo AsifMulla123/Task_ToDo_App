@@ -11,16 +11,13 @@ import java.time.LocalDateTime;
 @Setter
 public abstract class BaseEntity {
 
-    @Enumerated(EnumType.STRING)
-    private TaskStatus status = TaskStatus.OPEN;
-
     @Column(name = "created", updatable = false)
     private LocalDateTime created;
     @Column(name = "updated")
     private LocalDateTime updated;
 
     @PrePersist
-    void  onCreate(){
+    void onCreate(){
         this.created = LocalDateTime.now();
         this.updated = LocalDateTime.now();
     }

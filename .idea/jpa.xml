@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="JpaBuddyIdeaProjectConfig" reUseTableSchema="true">
+    <option name="newEntityIdStrategy" />
+    <option name="reLastEntityCreationPackage" value="FirstProject/src/main/java/com/learn_spring/TaskManager" />
+    <option name="reverseEngineeringLastDbConnectionId" value="e1f0dcf7-7f01-4041-8f3d-8a4d8246baf3" />
+  </component>
   <component name="PersistenceUnitSettings">
     <persistence-units>
       <persistence-unit moduleName="FirstProject" name="FirstProject" framework="JPA" ormUnit="FirstProject:FirstProject" defaultDataSourceId="1230d84e-5b1c-4bbd-b3c7-9ff34e174c32" />

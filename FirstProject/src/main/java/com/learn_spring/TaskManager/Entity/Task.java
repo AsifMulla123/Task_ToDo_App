@@ -2,18 +2,15 @@ package com.learn_spring.TaskManager.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+@Getter @Setter @ToString @RequiredArgsConstructor
 @Entity
 @Table(name = "tasks")
 public class Task extends BaseEntity{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id",updatable = false, nullable = false)
@@ -23,23 +20,17 @@ public class Task extends BaseEntity{
     @Column(name = "description")
     private String description;
 
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status = TaskStatus.OPEN;
+
     @Column(name="due_date")
     private LocalDateTime dueDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_list_id", nullable = false)
+    @ToString.Exclude
+    private TaskList taskList;
 
-    @Override
-    public final boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null) return false;
-        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
-        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
-        if (thisEffectiveClass != oEffectiveClass) return false;
-        Task task = (Task) o;
-        return getId() != null && Objects.equals(getId(), task.getId());
-    }
 
-    @Override
-    public final int hashCode() {
-        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
-    }
+
 }

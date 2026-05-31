@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Data
 public class UpdateTaskRequestDto {
 
-
     @NotBlank(message = "Title cannot be blank.")
     @Size(max = 50)
     private String title;
@@ -20,10 +19,8 @@ public class UpdateTaskRequestDto {
     @Size(max = 500)
     private String description;
 
-    @NotNull(message = "Status cannot be blank! Please enter OPEN OR CLOSED")
     private TaskStatus status;
 
-    @NotNull(message = "Due date cannot be empty!")
     @Future(message = "Due date should be in future!")
     private LocalDateTime dueDate;
 

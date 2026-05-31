@@ -1,9 +1,11 @@
 package com.learn_spring.TaskManager.Mapper;
 
 import com.learn_spring.TaskManager.DTO.CreateTaskRequestDto;
+import com.learn_spring.TaskManager.DTO.TaskListResponseDto;
 import com.learn_spring.TaskManager.DTO.TaskResponseDto;
 import com.learn_spring.TaskManager.DTO.UpdateTaskRequestDto;
 import com.learn_spring.TaskManager.Entity.Task;
+import com.learn_spring.TaskManager.Entity.TaskList;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -30,7 +32,6 @@ public class TaskMapper {
 
     // ENTITY -> RESPONSE DTO
     public TaskResponseDto toTaskResponseDto(Task task) {
-
         TaskResponseDto dto = new TaskResponseDto();
 
         dto.setId(task.getId());
@@ -40,6 +41,11 @@ public class TaskMapper {
         dto.setDueDate(task.getDueDate());
         dto.setCreated(task.getCreated());
         dto.setUpdated(task.getUpdated());
+        if(task.getTaskList() != null) {
+            dto.setTaskListTitle(
+                    task.getTaskList().getTitle()
+            );
+        }
 
         return dto;
     }

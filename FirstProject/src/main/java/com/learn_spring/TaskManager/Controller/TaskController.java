@@ -19,15 +19,15 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping("/tasks")
-    public ResponseEntity <List<TaskResponseDto>> findAllTasks() {
+    @GetMapping("/task_lists/{listId}/tasks")
+    public ResponseEntity <List<TaskResponseDto>> findAllTasks(@Valid @PathVariable Long listId) {
 
-        List<TaskResponseDto> tasks = taskService.findAllTasks();
+        List<TaskResponseDto> tasks = taskService.findAllTasks(listId);
 
         return  ResponseEntity.ok(tasks);
     }
-    @GetMapping("/tasks/{id}")
-    public ResponseEntity<TaskResponseDto> findTaskById(@PathVariable long id) {
+    @GetMapping("/task_lists/{listId}/tasks/{id}")
+    public ResponseEntity<TaskResponseDto> findTaskById(@PathVariable long listId, @PathVariable long id) {
 
         TaskResponseDto task = taskService.findWithId(id);
 
@@ -35,24 +35,41 @@ public class TaskController {
 
     }
 
-    @PostMapping("/tasks")
-    public ResponseEntity<String> saveTask(@Valid @RequestBody CreateTaskRequestDto createTaskRequestDto) {
-        taskService.createTask(createTaskRequestDto);
-        return new ResponseEntity<>("task created!", HttpStatus.CREATED);
+//    @PostMapping("/tasks")
+//    public ResponseEntity<String> saveTask(@Valid @RequestBody CreateTaskRequestDto createTaskRequestDto) {
+//        taskService.createTask(createTaskRequestDto);
+//        return new ResponseEntity<>("task created!", HttpStatus.CREATED);
+//    }
+
+    @PostMapping("/task_lists/{listId}/tasks")
+    public ResponseEntity<String> saveTask(@Valid @PathVariable long listId, @Valid @RequestBody CreateTaskRequestDto createListDto) {
+        taskService.createTask(listId,createListDto);
+
+        return new ResponseEntity<>("task created", HttpStatus.CREATED);
     }
 
-    @PutMapping("/tasks/{id}")
-    public ResponseEntity<String> updateTask(@PathVariable long id, @Valid @RequestBody UpdateTaskRequestDto updateDto) {
-        taskService.updateTask(updateDto, id);
+
+
+    @PutMapping("/task_lists/{listId}/tasks/{id}")
+    public ResponseEntity<String> updateTask(@PathVariable long listId, @PathVariable long id, @Valid @RequestBody UpdateTaskRequestDto updateDto) {
+        taskService.updateTask(updateDto, listId, id);
         return new ResponseEntity<>("Task updated successfully", HttpStatus.OK);
     }
 
-    @DeleteMapping("/tasks/{id}")
-    public ResponseEntity<String> deleteTask(@PathVariable long id) {
+    @DeleteMapping("/task_lists/{listId}/tasks/{id}")
+    public ResponseEntity<String> deleteTask(@PathVariable long listId, @PathVariable long id) {
 
-        taskService.deleteTaskById(id);
+        taskService.deleteTaskById(listId, id);
 
         return ResponseEntity.noContent().build();
-
     }
+
+    @DeleteMapping("task_lists/{listId}/tasks")
+    public ResponseEntity<String> deleteAllTasks(@PathVariable long listId) {
+        taskService.deleteAllTasks(listId);
+
+        return ResponseEntity.noContent().build();
+    }
+
+
 }

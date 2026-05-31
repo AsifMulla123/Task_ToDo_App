@@ -7,6 +7,8 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,10 +17,11 @@ import java.util.Map;
 public class GlobalExceptionHandler{
 
     @ExceptionHandler(TaskNotFoundException.class)
-    public ResponseEntity<ErrorResponseDto> handleTaskNotFoundException(TaskNotFoundException ex) {
+    public ResponseEntity<ErrorResponseDto> handleTaskNotFoundException(TaskNotFoundException ex, WebRequest webRequest) {
 
         ErrorResponseDto error = new ErrorResponseDto(
-                ex.getMessage(),
+                webRequest.getDescription(false),
+                "Task Not Found",
                 HttpStatus.NOT_FOUND.value(),
                 LocalDateTime.now()
         );
@@ -38,8 +41,9 @@ public class GlobalExceptionHandler{
 
     //Handling Parsing exception
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponseDto> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+    public ResponseEntity<ErrorResponseDto> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex, WebRequest webRequest) {
         ErrorResponseDto error = new ErrorResponseDto(
+                webRequest.getDescription(false),
                 "Invalid Request Body",
                 HttpStatus.BAD_REQUEST.value(),
                 LocalDateTime.now()
@@ -49,8 +53,9 @@ public class GlobalExceptionHandler{
 
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponseDto> handleException(Exception ex) {
+    public ResponseEntity<ErrorResponseDto> handleException(Exception ex, WebRequest webRequest) {
         ErrorResponseDto error = new ErrorResponseDto( //Need logging here need to update the code letter
+                webRequest.getDescription(false),
                 "Something went wrong",
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 LocalDateTime.now()
